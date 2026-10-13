@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Keerati Thakhieo · UE Artist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F5F6F7;
+  --panel:#ECEEF0;
+  --ink:#15171A;
+  --muted:#626770;
+  --line:#D8DBDF;
+  --lamp:#B8731F;
+  --slot:#E3E6E9;
+  --sans:"Schibsted Grotesk","IBM Plex Sans Thai",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0F1012;--panel:#17191C;--ink:#E9EAEC;--muted:#9AA0A8;--line:#2A2D31;--lamp:#E3A04B;--slot:#1C1F23}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0F1012;--panel:#17191C;--ink:#E9EAEC;--muted:#9AA0A8;--line:#2A2D31;--lamp:#E3A04B;--slot:#1C1F23}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);padding-inline:clamp(16px,4vw,40px);padding-block:0 72px;margin:0}
+a{color:inherit}
+a:focus-visible,input:focus-visible{outline:2px solid var(--lamp);outline-offset:3px}
+.wrap{max-width:1080px;margin-inline:auto}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+p{margin:0;max-width:62ch}
+.cap{font:12px/1.5 var(--mono);color:var(--muted);letter-spacing:.02em}
+.eyebrow{font:500 12px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--lamp)}
+
+header.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding-block:22px;border-bottom:1px solid var(--line)}
+header.top nav{display:flex;gap:18px;flex-wrap:wrap}
+header.top nav a{text-decoration:none;font:13px var(--mono);color:var(--muted)}
+header.top nav a:hover{color:var(--ink)}
+.name{font-weight:700}
+
+.intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 48px;align-items:end;padding-block:56px 28px}
+.intro h1{font-size:clamp(36px,5.4vw,60px);line-height:1.02}
+.intro h1 span{color:var(--muted)}
+.intro p{color:var(--muted)}
+.facts{display:grid;gap:6px;margin-top:14px}
+.facts div{display:flex;gap:10px;font-size:14px}
+.facts b{font:500 12px var(--mono);color:var(--muted);min-width:76px;padding-top:2px;font-weight:500}
+
+/* image slots: drop a file with the right name into img/ and it appears */
+.shot{margin:0;position:relative}
+.shot .frame{position:relative;aspect-ratio:16/9;background:var(--slot);border-radius:4px;overflow:hidden}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.shot.free .frame{aspect-ratio:auto}
+.shot.free img{height:auto}
+.shot .need{display:none}
+.shot.missing img{display:none}
+.shot.missing .frame{border:1px dashed var(--muted);display:grid;place-items:center;padding:20px;text-align:center}
+.shot.missing .need{display:block;font:13px/1.5 var(--mono);color:var(--muted);max-width:44ch}
+.shot.missing .need b{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
+.shot figcaption{margin-top:10px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.shot figcaption .t{font-size:15px;font-weight:500}
+
+/* before / after lighting */
+.ba .frame{cursor:ew-resize}
+.ba .after{position:absolute;inset:0;clip-path:inset(0 0 0 var(--cut,50%))}
+.ba .after img{width:100%;height:100%;object-fit:cover}
+.ba .divider{position:absolute;top:0;bottom:0;left:var(--cut,50%);width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
+.ba .tag{position:absolute;top:12px;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:rgba(15,16,18,.72);color:#fff;padding:4px 8px;border-radius:3px}
+.ba .tag.l{left:12px}.ba .tag.r{right:12px}
+.ba input{width:100%;margin-top:10px;accent-color:var(--lamp)}
+.reel .frame{display:block}
+.reel .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(15,16,18,.72);color:#fff;display:grid;place-items:center;transition:transform .15s}
+.reel .frame:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+.reel .tag{position:absolute;top:12px;left:12px;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:rgba(15,16,18,.72);color:#fff;padding:4px 8px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){.reel .play{transition:none}}
+.ba.missing .after,.ba.missing .divider,.ba.missing .tag,.ba.missing input{display:none}
+
+section{padding-block:64px 8px}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:12px 48px;margin-bottom:28px;align-items:end}
+.head h2{font-size:clamp(26px,3.4vw,36px);line-height:1.1;margin-top:8px}
+.head p{color:var(--muted)}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 20px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 16px}
+.wide{grid-column:1/-1}
+
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line);margin-top:32px}
+.notes div{padding:18px 18px 18px 0;border-bottom:1px solid var(--line)}
+.notes h3{font-size:16px;margin-bottom:6px}
+.notes p{font-size:14px;color:var(--muted)}
+
+.credit{margin-top:24px;padding:14px 16px;background:var(--panel);border-radius:4px;font-size:14px;color:var(--muted)}
+.credit b{color:var(--ink);font-weight:500}
+
+.pipe{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.pipe span{font:12px var(--mono);padding:6px 10px;border:1px solid var(--line);border-radius:3px}
+.pipe i{font-style:normal;color:var(--muted);align-self:center}
+
+.also{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.also div{padding:18px;border:1px solid var(--line);border-radius:4px}
+.also h3{font-size:17px;margin-bottom:6px}
+.also p{font-size:14px;color:var(--muted)}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:15px}
+.tools span{color:var(--muted);font:12px var(--mono)}
+
+footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+footer h2{font-size:clamp(24px,3vw,32px)}
+.contact{display:grid;gap:6px;text-align:right}
+.contact a{font:14px var(--mono);text-decoration:none;border-bottom:1px solid var(--line)}
+.contact a:hover{border-color:var(--ink)}
+.contact a.empty{display:none}
+
+@media (max-width:760px){
+  .intro,.head,.notes,.also,footer{grid-template-columns:1fr}
+  .g3{grid-template-columns:1fr 1fr}
+  .contact{text-align:left}
+}
+@media (max-width:480px){.g2,.g3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <span class="name">Keerati Thakhieo (Tawan)</span>
+    <nav aria-label="Sections">
+      <a href="#lighting">Lighting</a>
+      <a href="#post">Post-process</a>
+      <a href="#assets">Assets</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="intro">
+    <div>
+      <div class="eyebrow">Unreal Engine Artist · Internship</div>
+      <h1 style="margin-top:12px">Lighting and atmosphere in Unreal Engine 5 <span>for a horror mansion</span></h1>
+    </div>
+    <div>
+      <p>I light and grade real-time scenes in UE5, build post-process effects, and make characters from clothing to texture to hair. I can also wire up a scene in Blueprint when a shot needs things to move or react.</p>
+      <div class="facts">
+        <div><b>Study</b><span>Multimedia Technology and Animation, Mae Fah Luang University (4th year)</span></div>
+        <div><b>Available</b><span>4 Jan – 23 Apr 2027</span></div>      </div>
+    </div>
+  </div>
+
+  <!-- HERO: lighting showcase render -->
+  <figure class="shot reel" id="hero">
+    <a class="frame" href="https://youtu.be/_5L_ks9rYRc" target="_blank" rel="noopener" aria-label="Play the Forgotten lighting showcase on YouTube">
+      <img src="img/seq_32_5.jpg" alt="Mansion room under a chandelier, from the lighting showcase render" data-slot>
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="tag l">Sequencer render · 0:43</span>
+    </a>
+    <figcaption><span class="t">Lighting showcase, Forgotten · watch on YouTube</span><span class="cap">UE5 · Sequencer · 1080p</span></figcaption>
+  </figure>
+
+  <!-- LIGHTING -->
+  <section id="lighting">
+    <div class="head">
+      <div><div class="eyebrow">Lighting</div><h2>Forgotten, a mansion at night</h2></div>
+      <p>Forgotten is my senior project, a first-person horror game. The player only has a lantern and a camcorder, so light decides what the player sees and where they dare to go. I did the lighting pass for the house: where light comes from, its color and strength, and the final grade.</p>
+    </div>
+    <div class="g2">
+      <figure class="shot wide">
+        <div class="frame"><img src="img/seq_8.jpg" alt="Room with a table lamp glowing under the window and pendant lights above" data-slot></div>
+        <figcaption><span class="t">Window room, wide</span><span class="cap">table lamp as the key · pendants above</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="frame"><img src="img/seq_22_5.jpg" alt="Wood-panelled corridor lit by a single wall sconce" data-slot></div>
+        <figcaption><span class="t">Corridor</span><span class="cap">one sconce, the rest falls to black</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="frame"><img src="img/seq_27_5.jpg" alt="Chess set on a side table beside a tall mirror and a small wall light" data-slot></div>
+        <figcaption><span class="t">Chess table, close-up</span><span class="cap">small practical · shallow depth</span></figcaption>
+      </figure>
+      <figure class="shot"><div class="frame"><img src="img/seq_11_5.jpg" alt="Study with green glass pendant lamps and a bookcase" data-slot></div><figcaption><span class="t">Study</span><span class="cap">colored glass pendants</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/seq_35_5.jpg" alt="Dark doorway framed by two wall sconces" data-slot></div><figcaption><span class="t">Doorway</span><span class="cap">symmetry · darkness as the subject</span></figcaption></figure>
+    </div>
+    <div class="notes">
+      <div><h3>Light sources</h3><p>Where light comes from in each room and how it pulls the player toward the next door.</p></div>
+      <div><h3>Atmosphere</h3><p>Shadow and contrast that keep far corners unreadable, so the player never feels safe.</p></div>
+      <div><h3>Grade</h3><p>Post-process volume for exposure, contrast and color, tuned so dark areas stay dark but still read.</p></div>
+    </div>
+    <div class="credit"><b>What's mine:</b> lighting and post-process for the whole house. The modular house kit, furniture and their textures were made by others on the project.</div>
+
+    <div class="head" style="margin-top:56px">
+      <div><div class="eyebrow">Lighting · earlier work</div><h2>Christmas living room</h2></div>
+      <p>A night interior lit almost only by practical sources: the fireplace, string lights on the tree and window, and colored light from outside coming through the blinds.</p>
+    </div>
+    <div class="g2">
+      <figure class="shot"><div class="frame"><img src="img/old_xmas_2.jpg" alt="Living room with fireplace glow, stockings and a Christmas tree" data-slot></div><figcaption><span class="t">Fireplace corner</span><span class="cap">warm practical as key</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/old_xmas_4.jpg" alt="Window with blinds, string lights and colored light from outside" data-slot></div><figcaption><span class="t">Window</span><span class="cap">light through the blinds</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/old_xmas_3.jpg" alt="Wide view of the living room with sofa, desk and tree" data-slot></div><figcaption><span class="t">Wide</span><span class="cap">low-key interior</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/old_xmas_1.jpg" alt="Foreground tree framing the dark living room" data-slot></div><figcaption><span class="t">Foreground framing</span><span class="cap">depth through silhouette</span></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- POST-PROCESS -->
+  <section id="post">
+    <div class="head">
+      <div><div class="eyebrow">Post-process &amp; materials</div><h2>Effects the player sees through</h2></div>
+      <p>Two screen effects I built for Forgotten. Each one changes how the same room looks depending on what the player is doing.</p>
+    </div>
+    <div class="g2">
+      <figure class="shot">
+        <div class="frame"><img src="img/env_05.jpg" alt="Mansion room seen through the camcorder with night vision and focus brackets" data-slot></div>
+        <figcaption><span class="t">Night vision</span><span class="cap">camcorder mode</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="frame"><img src="img/f_camera.jpg" alt="Camcorder view with focus brackets and a highlighted target" data-slot></div>
+        <figcaption><span class="t">Focus highlight</span><span class="cap">custom depth + stencil outline</span></figcaption>
+      </figure>
+    </div>
+    <div class="g2" style="margin-top:28px">
+      <figure class="shot free">
+        <div class="frame"><img src="img/f_outline.jpg" alt="Blueprint that turns on render custom depth and sets a stencil value" data-slot></div>
+        <figcaption><span class="t">Outline trigger</span><span class="cap">Render Custom Depth · Stencil Value</span></figcaption>
+      </figure>
+      <figure class="shot free">
+        <div class="frame"><img src="img/f_album.jpg" alt="In-game photo album with shots of the mansion rooms" data-slot></div>
+        <figcaption><span class="t">Photos taken in-game</span><span class="cap">sorted by room</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ASSETS -->
+  <section id="assets">
+    <div class="head">
+      <div><div class="eyebrow">Assets</div><h2>Characters, start to engine</h2></div>
+      <p>Characters for Forgotten and a VR project. Bodies start from MetaHuman or base meshes; the clothing, textures and hair are mine.</p>
+    </div>
+    <div class="pipe"><span>Maya / MetaHuman</span><i>→</i><span>Marvelous Designer</span><i>→</i><span>Substance Painter</span><i>→</i><span>XGen hair</span><i>→</i><span>FBX → UE5</span></div>
+    <div class="g3">
+      <figure class="shot"><div class="frame"><img src="img/c_michael.jpg" alt="Michael, MetaHuman-based character" data-slot></div><figcaption><span class="t">Michael</span><span class="cap">skin pass</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/c_jacket.jpg" alt="Jacket, shirt and pants patterns in Marvelous Designer" data-slot></div><figcaption><span class="t">Outfit</span><span class="cap">Marvelous Designer</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/c_hair.jpg" alt="XGen hair guides" data-slot></div><figcaption><span class="t">Hair</span><span class="cap">XGen</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/c_blood.jpg" alt="Blood stains painted on fabric" data-slot></div><figcaption><span class="t">Blood variant</span><span class="cap">Substance Painter</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/c_leather.jpg" alt="Worn leather material" data-slot></div><figcaption><span class="t">Worn leather</span><span class="cap">jacket material</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/c_roeis.jpg" alt="Roeis in a long dress" data-slot style="object-position:center 45%"></div><figcaption><span class="t">Roeis</span><span class="cap">dress in Marvelous</span></figcaption></figure>
+    </div>
+
+    <div class="head" style="margin-top:56px">
+      <div><div class="eyebrow">Modeling · Maya</div><h2>Stylized scenes</h2></div>
+      <p>Two small scenes I modeled in Maya: a gamer's bedroom and a cherry-blossom diorama, with the wireframe to show the topology.</p>
+    </div>
+    <div class="g2">
+      <figure class="shot"><div class="frame"><img src="img/old_bed_iso.jpg" alt="Isometric bedroom room-box with desk, bed and wall lights" data-slot></div><figcaption><span class="t">Bedroom, room-box</span><span class="cap">Maya · ~43k tris</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/old_bed_1.jpg" alt="Bedroom interior with purple walls and neon triangle lights" data-slot></div><figcaption><span class="t">Bedroom, inside</span><span class="cap">area + spot lights</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/old_tree_1.jpg" alt="Low-poly cherry blossom tree diorama with rocks and a sword" data-slot></div><figcaption><span class="t">Cherry-blossom diorama</span><span class="cap">Maya · ~95k tris</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="img/old_tree_wire.jpg" alt="Wireframe of the cherry blossom tree" data-slot></div><figcaption><span class="t">Wireframe</span><span class="cap">topology</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="head">
+      <div><div class="eyebrow">Also</div><h2>Real-time, beyond the image</h2></div>
+      <p>Useful on a virtual production stage, where scenes have to run live and react.</p>
+    </div>
+    <div class="also">
+      <div><h3>Blueprint</h3><p>Built the gameplay systems in Forgotten: lantern, camcorder, interaction, triggered events. I can make lights, doors or props in a set respond to cues.</p></div>
+      <div><h3>VR in Unity</h3><p>Back to the Ring, a VR boxing game: I built the gameplay, AI opponent, hit detection and health, and connected the UI.</p></div>
+    </div>
+    <div class="tools" style="margin-top:28px">
+      Unreal Engine 5 (main) · Maya · Blender · Substance Painter · Marvelous Designer · Premiere Pro · Unity
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div><div class="eyebrow">Contact</div></div>
+    <div class="contact">
+      <a href="mailto:6631306010@lamduan.mfu.ac.th">6631306010@lamduan.mfu.ac.th</a>
+      <a href="" class="empty" id="reel">Showreel on YouTube</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+// Mark a slot as missing if its image file is not there yet.
+document.querySelectorAll('img[data-slot]').forEach(function(img){
+  function miss(){var f=img.closest('.shot');if(f)f.classList.add('missing');}
+  if(img.complete&&img.naturalWidth===0)miss();
+  img.addEventListener('error',miss);
+});
+
+// Showreel: paste your YouTube link between the quotes to show it.
+(function(){var url="https://youtu.be/_5L_ks9rYRc";var a=document.getElementById('reel');if(url){a.href=url;a.classList.remove('empty');}})();
+</script>
+</body>
+</html>
